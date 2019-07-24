@@ -28,12 +28,18 @@ class Person:
             self.rect.x = self.xPos + 20
         self.rect.y = self.yPos
 
-    def onPlatform(self, obj):
-        if obj.bottom == self.rect.bottom or obj.top == self.rect.bottom:
-            if obj.left <= self.rect.right and obj.right >= self.rect.left:
-                return True
-            else:
-                return False
+    def onPlatform(self, objects):
+        count = 0
+        for obj in objects:
+            if obj.top == self.rect.bottom:
+                if not(obj.left <= self.rect.right and obj.right >= self.rect.left):
+                    pass
+                else:
+                    count += 1
+        if count == 0:
+            return True
+        else:
+            return False
 
     def jump(self):
         if self.jumpCount != 0:
@@ -72,9 +78,8 @@ class Person:
         if key[py.K_t]:
             print(self.rect.x, self.rect.y)
 
-        for obj in objects:
-            if not(self.onPlatform(obj)):
-                self.yPos += 1
+        if self.onPlatform(objects):
+            self.yPos += 1
 
         self.moveRect()
 

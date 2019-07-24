@@ -3,18 +3,22 @@ from person import Person
 from flat import Flat
 from level_1 import *
 py.init()
+
 width = 1000
 height = 600
 window = py.display.set_mode([width, height])
 rect = window.get_rect()
 window.fill((255, 255, 255))
+
 clock = py.time.Clock()
+
 person = Person(width, height)
 person.yPos = 530
+
 level = level(window)
 
 objects = []
-objects.append(rect)        
+#objects.append(rect)        
 for i in range(len(level.platforms)):
     objects.append(level.platforms[i].rect)
 

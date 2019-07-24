@@ -6,8 +6,8 @@ from random import randint
 class level:
 	def __init__(self, window):
 		self.platforms = []
-		for i in range(1):
-			x = randint(0, 1000)
+		for i in range(10):
+			x = randint(0, 800)
 			y = randint(0, 600)
 			self.platforms.append(Flat())
 			self.platforms[-1].xPos = x
