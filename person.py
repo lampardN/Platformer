@@ -8,6 +8,7 @@ class Person:
         self.turn = 'right'
         self.idleCounter = 0
         self.isJump = False
+        self.inAir = True
         self.jumpCount = 10
         self.neg = 1
         self.xPos = 0
@@ -39,6 +40,7 @@ class Person:
         if count == 0:
             return True
         else:
+            self.inAir = False
             return False
 
     def jump(self):
@@ -69,17 +71,19 @@ class Person:
             self.runStatus['left'] = False
 
         if not(self.isJump):
-            if key[py.K_SPACE]:
+            if key[py.K_SPACE] and not(self.inAir):
                 self.isJump = True
         else:
-            self.jump()
-
-
-        if key[py.K_t]:
-            print(self.rect.x, self.rect.y)
+                self.inAir = True
+                self.jump()
 
         if self.onPlatform(objects):
             self.yPos += 1
+        
+        if key[py.K_UP]:
+            self.yPos -= 2
+
+            
 
         self.moveRect()
 
