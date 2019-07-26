@@ -1,21 +1,22 @@
-from sprites import *
+from personAnimation import *
 
 
 class Person:
     def __init__(self, screenWidth, screenHeight):
-        self.runCounter = 0
         self.runStatus = {'left': False, 'right': False}
         self.turn = 'right'
-        self.idleCounter = 0
         self.isJump = False
         self.inAir = True
+<<<<<<< Updated upstream
         self.jumpCount = 10
+=======
+>>>>>>> Stashed changes
         self.neg = 1
         self.xPos = 0
         self.yPos = 0
         self.width = 58
         self.height = 58
-        self.image = idleR[0]
+        self.image =
         self.rect = self.image.get_rect()
         self.rect.width = self.rect.width - 20
         self.moveRect()
@@ -89,26 +90,6 @@ class Person:
 
     def draw(self, display):
 
-        if self.runStatus['right']:
-            self.image = runR[self.runCounter]
 
-        elif self.runStatus['left']:
-            self.image = runL[self.runCounter]
-
-        else:
-
-            if self.turn == 'right':
-                self.image = idleR[self.idleCounter]
-            else:
-                self.image = idleL[self.idleCounter]
-
-        if self.runStatus['right'] or self.runStatus['left']:
-            self.runCounter += 1
-            if self.runCounter >= run:
-                self.runCounter = 0
-        else:
-            self.idleCounter += 1
-            if self.idleCounter >= idle:
-                self.idleCounter = 0
 
         display.blit(self.image, (self.xPos, self.yPos))
