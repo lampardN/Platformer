@@ -18,7 +18,6 @@ person.yPos = 530
 level = level(window)
 
 objects = []
-#objects.append(rect)        
 for i in range(len(level.platforms)):
     objects.append(level.platforms[i].rect)
 

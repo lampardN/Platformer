@@ -3,20 +3,17 @@ from personAnimation import *
 
 class Person:
     def __init__(self, screenWidth, screenHeight):
-        self.runStatus = {'left': False, 'right': False}
+        self.runStatus = {'run': False, 'stay': True}
         self.turn = 'right'
         self.isJump = False
         self.inAir = True
-<<<<<<< Updated upstream
-        self.jumpCount = 10
-=======
->>>>>>> Stashed changes
         self.neg = 1
         self.xPos = 0
         self.yPos = 0
         self.width = 58
         self.height = 58
-        self.image =
+        self.animation = PersonAnimation()
+        self.image = self.animation.setImage(self.turn)
         self.rect = self.image.get_rect()
         self.rect.width = self.rect.width - 20
         self.moveRect()
@@ -42,34 +39,29 @@ class Person:
             return True
         else:
             self.inAir = False
+            self.isJump = False
             return False
 
     def jump(self):
-        if self.jumpCount != 0:
-            self.yPos -= 10
-            self.jumpCount -= 1
-        else:
-            self.isJump = False
-            self.jumpCount = 10
-        self.moveRect()
+        self.yPos -= 1
 
     def move(self, key, objects):
 
         if key[py.K_LEFT] and self.xPos > 0:
             self.xPos -= 5
-            self.runStatus['left'] = True
-            self.runStatus['right'] = False
+            self.runStatus['run'] = True
+            self.runStatus['stay'] = False
             self.turn = 'left'
 
         elif key[py.K_RIGHT] and self.xPos < self.screenWidth - self.width:
             self.xPos += 5
-            self.runStatus['right'] = True
-            self.runStatus['left'] = False
+            self.runStatus['run'] = True
+            self.runStatus['stay'] = False
             self.turn = 'right'
 
         else:
-            self.runStatus['right'] = False
-            self.runStatus['left'] = False
+            self.runStatus['run'] = False
+            self.runStatus['stay'] = True
 
         if not(self.isJump):
             if key[py.K_SPACE] and not(self.inAir):
@@ -78,18 +70,26 @@ class Person:
                 self.inAir = True
                 self.jump()
 
-        if self.onPlatform(objects):
+        if self.onPlatform(objects) and not(self.isJump):
             self.yPos += 1
         
         if key[py.K_UP]:
             self.yPos -= 2
 
-            
-
         self.moveRect()
 
     def draw(self, display):
 
+        if self.runStatus['stay'] and (not(self.isJump and not(self.inAir))):
+            self.animation.idleAnimation()
+        elif self.runStatus['run'] and (not(self.isJump and not(self.inAir))):
+            self.animation.runAnimation()
+        else:
+            if self.isJump and self.inAir:
+                self.animation.jumpAnimation()
+            if not(self.isJump) and self.inAir:
+                self.animation.fallAnimation()
 
+        self.image = self.animation.setImage(self.turn)
 
         display.blit(self.image, (self.xPos, self.yPos))
